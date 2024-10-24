@@ -4,6 +4,6 @@ import { NextResponse } from "next/server";
 export const GET = apiHandler(async function prueba () {
     console.log('En prueba api')
     const resources = await this.db.models.Resource.find({}).limit(20)
-    console.log(resources)
+    console.log(resources[0])
     return NextResponse.json({msg: 'hola'})
 })

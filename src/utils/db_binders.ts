@@ -4,13 +4,17 @@ import chalk from 'chalk'
 import mongoose from 'mongoose'
 import { NextRequest, NextResponse } from 'next/server'
 
-const connectionOptions: mongoose.ConnectOptions = {}
-
-type HandlerScope = {
-    db: {
-        models: typeof DB_MODELS
+const appContext = {
+    models: DB_MODELS,
+    async raw (fn) {
+        const result = await fn()
+        return JSON.parse(JSON.stringify(result))
     }
 }
+
+const connectionOptions: mongoose.ConnectOptions = {}
+
+type HandlerScope = typeof appContext
 
 type NextHandler = (this: HandlerScope, req: NextRequest, res: NextResponse) => void
 type ServerReactBinder = (this: HandlerScope, ...args) => void
@@ -27,11 +31,16 @@ async function connectMongo () {
     console.log(chalk.bgRed.white(" -> Conectado a la base de datos correctamente"))
 };
 
-export function apiHandler (handler: NextHandler): NextHandler {
+export function apiHandler (handler: NextHandler, isAuthorized: boolean = true): NextHandler {
     return async (req, res) => {
         try {
+            if (isAuthorized) {
+                // TODO: Falta por hacer autorización
+                console.log(chalk.red.bold("La autorización falta por hacer"))
+            }
+
             await connectMongo()
-            return await handler.bind({db: {models: DB_MODELS}})(req, res)
+            return await handler.bind(appContext)(req, res)
         } catch (error: any) {
             console.log('Un error desconocido', error.message)
             return NextResponse.json({message: 'Error interno'}, {
@@ -42,7 +51,8 @@ export function apiHandler (handler: NextHandler): NextHandler {
 };
 
 export function reactServerBinder (rc: ServerReactBinder)  {
-    return async function (...args) {
-        return await rc.bind({db: {models: DB_MODELS}}) (...args)
+    return async function (params, searchParams) {
+        await connectMongo()
+        return await rc.bind(appContext) (params, searchParams)
     }
 }
