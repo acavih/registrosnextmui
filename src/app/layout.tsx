@@ -1,7 +1,7 @@
 import "./globals.css";
-import MantineCustomProvider from "@/components/providers/MantineProvider";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
+import MuiThemeProvider from "./MuiThemeProvider";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -15,12 +15,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="es">
+            <head>
+                <link rel="stylesheet" href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css' />
+            </head>
             <body
                 className={`antialiased`}
             >
-                <MantineCustomProvider>
+                <MuiThemeProvider>
                     {children}
-                </MantineCustomProvider>
+                </MuiThemeProvider>
             </body>
         </html>
     );
