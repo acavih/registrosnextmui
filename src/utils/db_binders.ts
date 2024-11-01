@@ -2,6 +2,7 @@ import { DB_MODELS } from '@/db'
 import { MONGODB_URI } from '@/vars'
 import chalk from 'chalk'
 import mongoose from 'mongoose'
+import { getServerSession } from 'next-auth'
 import { NextRequest, NextResponse } from 'next/server'
 
 const appContext = {
@@ -36,7 +37,10 @@ export function apiHandler (handler: NextHandler, isAuthorized: boolean = true):
         try {
             if (isAuthorized) {
                 // TODO: Falta por hacer autorización
-                console.log(chalk.red.bold("La autorización falta por hacer"))
+                const session = await getServerSession()
+                if (session === null) {
+                    return NextResponse.json({}, {status: 401})
+                }
             }
 
             await connectMongo()
