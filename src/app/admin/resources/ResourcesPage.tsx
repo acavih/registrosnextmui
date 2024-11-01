@@ -1,15 +1,50 @@
 'use client'
 
+import { Box, Button, IconButton, List, ListItem, MenuItem, Select, Stack, Typography } from '@mui/material'
 import _ from 'lodash'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import {Edit} from '@mui/icons-material'
 
 
 export default function ResourcesPage({resources}) {
     const [typesResources] = useState<string[]>(_.uniq(resources.map(r => r.type)))
     const [currentResource, setCurrentResource] = useState(typesResources[0])
 
+    const currentResourcesItems = useMemo(
+        () => resources.filter(r => r.type === currentResource),
+        [currentResource, resources]
+    )
+
     return (
-        <div>Recursos</div>
+        <Stack direction={'column'} gap={3}>
+            <Box sx={{display: 'flex', alignItems: 'center', justifyContent: 'space-between'}}>
+                <Typography variant="h4" color="initial">Recursos</Typography>
+                <Button variant="contained" color="primary">
+                  Añadir recurso
+                </Button>
+            </Box>
+            <Select 
+                value={currentResource} onChange={(e) => setCurrentResource(e.target.value)}
+            >
+                {typesResources.map((item) => <MenuItem key={item} value={item}>
+                    {item}
+                </MenuItem>)}
+            </Select>
+
+            <List>
+                {currentResourcesItems.map((item) => <ListItem key={item.name}>
+                    <ListItem
+                        secondaryAction={
+                            <IconButton edge="end" aria-label="delete">
+                                <Edit />
+                            </IconButton>
+                        }
+                    >
+                        {item.name}
+                    </ListItem>
+                </ListItem>)}
+            </List>
+        </Stack>
     )
 }
 

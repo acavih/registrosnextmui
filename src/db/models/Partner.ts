@@ -21,6 +21,36 @@ const partnerSchema = new mongoose.Schema({
     yearDidKnowus: { type: mongoose.Types.ObjectId, ref: Resource.modelName }
 })
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+partnerSchema.statics.search = async function ({searchQuery, page = 1, itemsPerPage = 20}) {
+    const partnerQueryFields = [
+        // '$codigo', ' ',
+        '$nombre', ' ',
+        '$apellidos', ' ',
+        '$telefono', ' ',
+        '$sipcard', ' ',
+        '$correoelectronico'
+    ]
+
+    let pattern = (searchQuery || '').replace(/\s/g, '.*')
+    const specialCharacters = ['+', '/', '(', '[', ']', ')', '^', '{', '}', '$']
+    specialCharacters.forEach(char => {
+        pattern = pattern.replace(new RegExp('\\' + char, 'g'), '\\' + char);
+    })
+
+    const aggregatesPipeline = [
+        {
+            $addFields: {
+                qUser: { $concat: partnerQueryFields }
+            }
+        },
+        {$match: { qUser: new RegExp(pattern, 'i') }},
+        {$limit: 20}
+    ]
+    const aggregatePartners = await this.aggregate(aggregatesPipeline)
+    return { partners: aggregatePartners, totalItems: [] }
+}
+
 export const Partner = mongoose.models[MODEL_NAME] ?? mongoose.model('members', partnerSchema)
 
 export default Partner

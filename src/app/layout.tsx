@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { ReactNode } from "react";
 import MuiThemeProvider from "./MuiThemeProvider";
+import AdapterDate from "./AdapterDate";
 
 export const metadata: Metadata = {
     title: "Create Next App",
@@ -22,7 +23,9 @@ export default function RootLayout({
                 className={`antialiased`}
             >
                 <MuiThemeProvider>
-                    {children}
+                    <AdapterDate>
+                        {children}
+                    </AdapterDate>
                 </MuiThemeProvider>
             </body>
         </html>

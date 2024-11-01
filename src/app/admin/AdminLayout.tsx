@@ -19,7 +19,7 @@ export default function AdminLayout({children}) {
         {activePattern: 'users', href: '/admin/users', text: 'Usuarios'},
         {activePattern: 'partners', href: '/admin/partners', text: 'Socios'},
         {activePattern: 'resources', href: '/admin/resources', text: 'Recursos'},
-        {activePattern: 'stats', href: '/admin/stats', text: 'Estadísticas'},
+        {activePattern: 'stats', href: '/stats', text: 'Estadísticas'},
     ]
 
     return (
@@ -28,7 +28,7 @@ export default function AdminLayout({children}) {
             <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
                 <Toolbar>
                     <Typography variant="h6" noWrap component="div">
-            Clipped drawer {pathname}
+                        Registros
                     </Typography>
                 </Toolbar>
             </AppBar>

@@ -9,6 +9,12 @@ const theme = createTheme({
                 size: 'small',
             },
         },
+        MuiSelect: {
+            defaultProps: {
+                fullWidth: true,
+                size: 'small',
+            },
+        }
     },
 });
 

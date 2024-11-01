@@ -16,7 +16,7 @@ function HomePage() {
                     const fd = new FormData(e.target as HTMLFormElement)
                     console.log(fd.get('username'))
                     console.log(fd.get('password'))
-                    router.push('/admin/resources')
+                    router.push('/admin/partners')
                 }}>
                     <CardHeader title="Iniciar sesión" />
                     <CardContent>
