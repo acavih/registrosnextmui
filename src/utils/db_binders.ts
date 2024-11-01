@@ -19,7 +19,7 @@ type HandlerScope = typeof appContext
 type NextHandler = (this: HandlerScope, req: NextRequest, res: NextResponse) => void
 type ServerReactBinder = (this: HandlerScope, ...args) => void
 
-async function connectMongo () {
+export async function connectMongo () {
     console.log('connection', mongoose.connection.readyState)
     if (mongoose.connection.readyState === 1) {
         console.log(chalk.bgRed.white("La conexión a la base de datos ya se realizó"))

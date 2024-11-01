@@ -51,6 +51,6 @@ partnerSchema.statics.search = async function ({searchQuery, page = 1, itemsPerP
     return { partners: aggregatePartners, totalItems: [] }
 }
 
-export const Partner = mongoose.models[MODEL_NAME] ?? mongoose.model('members', partnerSchema)
+export const Partner = mongoose.models[MODEL_NAME] ?? mongoose.model(MODEL_NAME, partnerSchema)
 
 export default Partner

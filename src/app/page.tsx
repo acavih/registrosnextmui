@@ -1,8 +1,10 @@
 import { reactServerBinder } from "@/utils/db_binders";
 import HomePage from "./HomePage";
+import { getServerSession } from "next-auth";
 
 export default reactServerBinder(async function Home() {
-    console.debug('sdds', JSON.stringify({a: 1, b: 2}, null, 2))
+    const session = await getServerSession()
+    console.log('session', session)
     return (
         <HomePage />
     );

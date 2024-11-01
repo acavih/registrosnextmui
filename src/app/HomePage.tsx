@@ -3,6 +3,7 @@ import { Toolbar, TextField, Card, CardContent, CardHeader, CardActions, Button,
 import LoginAppBar from './LoginAppBar';
 import Container from '@mui/material/Container'
 import { useRouter } from 'next/navigation';
+import { signIn } from 'next-auth/react';
 
 function HomePage() {
     const router = useRouter()
@@ -11,11 +12,17 @@ function HomePage() {
             <LoginAppBar />
             <Toolbar />
             <Container maxWidth="md" sx={{mt: 3}}>
-                <Card component={'form'} onSubmit={(e) => {
+                <Card component={'form'} onSubmit={async (e) => {
                     e.preventDefault()
                     const fd = new FormData(e.target as HTMLFormElement)
-                    console.log(fd.get('username'))
-                    console.log(fd.get('password'))
+                    const username = fd.get('username')
+                    const password = fd.get('password')
+                    const signin = await signIn('credentials', {
+                        username, password
+                    })
+                    if (!signin?.ok) {
+                        console.log('Login fallido')
+                    }
                     router.push('/admin/partners')
                 }}>
                     <CardHeader title="Iniciar sesión" />
