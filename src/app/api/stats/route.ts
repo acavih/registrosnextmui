@@ -20,4 +20,4 @@ export const GET = apiHandler(async function getStats(req) {
     const users = _.uniqBy(attentions.map(a => a.user), '_id')
 
     return NextResponse.json({attentions, users})
-})
+}) as any

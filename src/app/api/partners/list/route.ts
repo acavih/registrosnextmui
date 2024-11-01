@@ -14,4 +14,4 @@ export const GET = apiHandler(async function listPartners(req) {
         })
 
     return NextResponse.json(partnersList)
-})
+}) as any

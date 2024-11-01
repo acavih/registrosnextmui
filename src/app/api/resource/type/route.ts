@@ -8,4 +8,4 @@ export const GET = apiHandler(async function (req) {
             .sort({name: 'asc'})
     })
     return NextResponse.json(resources)
-})
+}) as any

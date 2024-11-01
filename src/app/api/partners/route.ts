@@ -6,4 +6,4 @@ export const POST = apiHandler(async function createPartner(req) {
     console.log('payload', payload)
     await this.models.Partner.create(payload)
     return NextResponse.json({message: 'recibido'})
-})
+}) as any
