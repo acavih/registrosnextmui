@@ -61,7 +61,7 @@ function HorizontalBarChart({data: horizontalBarChartData, title}) {
             enabled: false
         },
         series: [{
-            name: 'Values',
+            name: title,
             data: horizontalBarChartData.map(a => a.value)
         } as any]
     };

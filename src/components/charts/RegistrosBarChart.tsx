@@ -45,7 +45,7 @@ const RegistrosBarChart = ({data, title}) => {
         },
         series: [
             {
-                name: 'values',
+                name: title,
                 data: data.map(d => d.value)
             }
         ]

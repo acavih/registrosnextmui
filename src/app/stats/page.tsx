@@ -9,10 +9,11 @@ export default reactServerBinder(async function Page() {
                 $gte: '2024/01/01',
                 $lte: '2024/12/31'
             }
-        }).populate({
-            path: 'user',
-            populate: ['sexo','socioono', 'nacionalidad', 'ciudadresidencia', 'howDidKnowUs', 'yearDidKnowus']
-        })
+        }).populate(['lugaratencion', 'Proyectos', 'derivadoa', 'derivadode', 'formacion', 'motivosatencion', 'tipoaenciones'])
+            .populate({
+                path: 'user',
+                populate: ['sexo','socioono', 'nacionalidad', 'ciudadresidencia', 'howDidKnowUs', 'yearDidKnowus']
+            })
         return attentions
     })
     const users = _.uniqBy(attentions.map(a => a.user), '_id')
